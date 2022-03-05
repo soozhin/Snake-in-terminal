@@ -18,6 +18,10 @@ public class Model {
             ;
         }
         else{
+            switch(event){
+                case 'S':
+                    
+            }
             ;
         }
         view.update();
