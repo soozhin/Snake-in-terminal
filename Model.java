@@ -4,10 +4,12 @@ public class Model {
 
     private Controller controller;
     private View view;
+    private State state;
 
     public Model() {
         controller = new Controller(this);
         view = new View(this);
+        state = new GameState(view);
     }
 
     /*
@@ -15,16 +17,16 @@ public class Model {
     */
     public synchronized void process(String event){
         if(event.equals("TIME_ELAPSED")){
-            ;
+            state = state.processTimeElapsed();
         }
         else{
-            switch(event){
-                case 'S':
-                    
-            }
-            ;
+            state = state.processKeyTyped(event);
         }
         view.update();
+    }
+
+    public State getState(){
+        return state;
     }
 
     /*

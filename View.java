@@ -3,8 +3,8 @@ public class View {
     private int width;
     private int height;
     private Model model;
-    private final static int WIDTH = 100;
-    private final static int HEIGHT = 100;
+    public final static int WIDTH = 40;
+    public final static int HEIGHT = 20;
 
     public View(Model model) {
         this(model, WIDTH, HEIGHT);
@@ -45,12 +45,30 @@ public class View {
         System.out.println(s);
     }
 
+    public void put(char c, int x, int y){
+        if(x<0 || width<x || y<0 || height<y)
+            return;
+        screen[x][y] = c;
+    }
+
+    public void putString(String s, int x, int y){
+        if(x<0 || width<x || y<0 || height<y)
+            return;
+        for(int i = 0; i < s.length(); i++)
+            screen[x + i][y] = s.charAt(i);
+    }
+
     /*
     Clear everything on screen
     Then prints out everything in screen[][] on terminal
     */
     public void update(){
+        //Clears the entire terminal
+        //According to "https://www.delftstack.com/howto/java/java-clear-console/#:~:text=Use%20ANSI%20Escape%20Codes%20to%20Clear%20Console%20in%20Java,-We%20can%20use&text=To%20clear%20the%20console%20in,command%20to%20clean%20the%20console."
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         clear();
+        model.getState().paint(this);
         paint();
     }
 
