@@ -1,45 +1,42 @@
-import java.util.LinkedList;
+public class GameState implements State {
 
-public class GameState implements State{
-    
     public View view;
-    public Bullet bullet;
+    private Snake snake;
 
-    public GameState(View view){
+    public GameState(View view) {
         this.view = view;
-        bullet = new Bullet(20,10);
+        snake = new Snake(5);
     }
 
-    public State processTimeElapsed(){
-        if(bullet.checkOutOfBound(view))
-            return new GameState(view);
+    public State processTimeElapsed() {
+        snake.continueMoving();
         return this;
     }
 
-    public State processKeyTyped(String event){
-        switch(event){
-            case ("UP"):
-                bullet.moveBullet(0,-1);
+    public State processKeyTyped(String event) {
+        switch (event) {
+            case ("up"):
+                snake.moveUp();
                 break;
-            case ("DOWN"):
-                bullet.moveBullet(0,1);
+            case ("down"):
+                snake.moveDown();
                 break;
-            case ("LEFT"):
-                bullet.moveBullet(-1,0);
+            case ("left"):
+                snake.moveLeft();
                 break;
-            case ("RIGHT"):
-                bullet.moveBullet(1,0);
+            case ("right"):
+                snake.moveRight();
                 break;
+            // Pause game
+            case (""):
+                return new PauseState(view, this);
         }
-        if(event.equals(""))
-            return new PauseState(view,this);
         return this;
     }
 
-    public void paint(View view){
-        bullet.paint(view);
-        String coordinate = bullet.getX() + ", " + bullet.getY() + ", " + bullet.checkOutOfBound(view);
-        view.putString(coordinate,0,0);
+    public void paint(View view) {
+        for (SnakeBody snakeBody : snake.getSnakeBody())
+            snakeBody.paint(view);
     }
 
 }

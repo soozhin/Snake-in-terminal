@@ -9,39 +9,46 @@ public class Model {
     public Model() {
         controller = new Controller(this);
         view = new View(this);
-        state = new GameState(view);
+        state = new StartMenu(view);
     }
 
     /*
-    *   Update game data
-    */
-    public synchronized void process(String event){
-        if(event.equals("TIME_ELAPSED")){
+     * Update game data
+     */
+    public synchronized void process(String event) {
+        if (event.equals("TIME_ELAPSED")) {
             state = state.processTimeElapsed();
-        }
-        else{
+        } else {
             state = state.processKeyTyped(event);
         }
         view.update();
     }
 
-    public State getState(){
+    public State getState() {
         return state;
     }
 
     /*
-    *   Start ActionListener
-    */
-    public void run() throws IOException{
+     * Start ActionListener
+     */
+    public void run() throws IOException {
         controller.run();
     }
 
     /*
-    *   Start game
-    */
-    public static void main(String[] args) throws InterruptedException, IOException{
+     * Start game
+     * TODO
+     * Do we need to add a try and catch here? Bcaz we might have an exception
+     * thrown at this main
+     */
+    public static void main(String[] args) throws InterruptedException, IOException {
         Model model = new Model();
-        model.run();
+        try {
+            model.run();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
     }
 
 }

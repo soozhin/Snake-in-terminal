@@ -13,14 +13,48 @@ public class PauseState implements State{
     }
 
     public State processKeyTyped(String event){
-        if(event.equals("")){
-            return savedState;
+        switch(event){
+            case (""):
+                return savedState;
+            case ("q"):
+                // Back to main menu
+                return new StartMenu(view);
+            case ("r"):
+                return new RuleState(view, this);
         }
-        else
-            return this;
+        return this;
     }
 
+    /*
+    ########################################
+    #                                      #
+    #                                      #
+    #                PAUSED                #(17,3)
+    #                                      #
+    #                                      #
+    #                                      #
+    #                                      #
+    #                                      #
+    #                                      #
+    #        PRESS R TO CHECK RULES        #(9,10)
+    #                                      #
+    #        PRESS ENTER TO CONTINUE       #(9,12)
+    #                                      #
+    #    PRESS Q TO RETURN TO MAIN MENU    #(5,14)
+    #                                      #
+    #                                      #
+    #                                      #
+    #                                      #
+    ########################################
+    */
     public void paint(View view){
-        view.putString("PAUSE",18,10);
+        String pause = "PAUSED";
+        String game = "PRESS ENTER TO CONTINUE";
+        String menu = "PRESS Q TO RETURN TO MAIN MENU";
+        String rules = "PRESS R TO CHECK RULES";
+        view.putString(pause,17,3);
+        view.putString(game,9,12);
+        view.putString(menu,5,14);
+        view.putString(rules,9,10);
     }
 }
