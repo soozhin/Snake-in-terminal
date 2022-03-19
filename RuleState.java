@@ -35,14 +35,14 @@ public class RuleState implements State {
     #                                      #
     #                                      #
     #                                      #
+    #        USE ARROW KEYS TO MOVE        #(9,10)
     #                                      #
+    #         PRESS ENTER TO PAUSE         #(10,12)
     #                                      #
+    #    COMSUMPTION OF FOOD WILL RESULT   #(5,14)
+    #      IN INCREMENT OF BODY LENGTH     #(7,15)
     #                                      #
-    #        PRESS ENTER TO CONTINUE       #(9,13)
-    #                                      #
-    #    PRESS Q TO RETURN TO MAIN MENU    #(5,15)
-    #                                      #
-    #                                      #
+    #          <ENTER TO GO BACK>          #(11,17)
     #                                      #
     ########################################
     */
@@ -51,7 +51,17 @@ public class RuleState implements State {
     public void paint(View view) {
         // TODO Auto-generated method stub
         String rules = "RULES";
+        String arrowkeys = "USE ARROW KEYS TO MOVE";
+        String pause = "PRESS ENTER TO PAUSE";
+        String food1 = "COMSUMPTION OF FOOD WILL RESULT";
+        String food2 = "IN INCREMENT OF BODY LENGTH";
+        String back = "<ENTER TO GO BACK>";
         view.putString(rules, 17, 3);
+        view.putString(arrowkeys, 9, 10);
+        view.putString(pause, 10, 12);
+        view.putString(food1, 5, 14);
+        view.putString(food2, 7, 15);
+        view.putString(back, 11, 17);
     }
 
 }

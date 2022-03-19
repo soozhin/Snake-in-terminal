@@ -9,8 +9,9 @@ public class Controller implements ActionListener {
 
     /*
      * DELAY = 50 -> delay 50ms -> FPS = 20Hz
+     * DELAY = 20 -> delay 20ms -> FPS = 50Hz
      */
-    private static final int DELAY = 50;
+    private static final int DELAY = 20;
     private Model model;
     private Timer timer;
 
@@ -35,12 +36,16 @@ public class Controller implements ActionListener {
         }
     }
 
+    public static int getDelay() {
+        return DELAY;
+    }
+
     /*
      * Run process even when there is no input
      * For time event 時間経過と共に発生するイベント
      */
     @Override
-    public void actionPerformed(ActionEvent e) {  
+    public void actionPerformed(ActionEvent e) {
         model.process("TIME_ELAPSED");
     }
 
