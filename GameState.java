@@ -16,16 +16,16 @@ public class GameState implements State {
     public State processKeyTyped(String event) {
         switch (event) {
             case ("up"):
-                snake.moveUp();
+                snake.setSnakeDirection("up");
                 break;
             case ("down"):
-                snake.moveDown();
+                snake.setSnakeDirection("down");
                 break;
             case ("left"):
-                snake.moveLeft();
+                snake.setSnakeDirection("left");
                 break;
             case ("right"):
-                snake.moveRight();
+                snake.setSnakeDirection("right");
                 break;
             // Pause game
             case (""):

@@ -40,7 +40,7 @@ public class Controller implements ActionListener {
      * For time event 時間経過と共に発生するイベント
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {  
         model.process("TIME_ELAPSED");
     }
 

@@ -6,6 +6,7 @@ public class Snake {
     private double speed;
     private double movementInterval;
     private String currentSnakeMovingDirection;
+    private String inputSnakeMovingDirection;
     private LinkedList<SnakeBody> snakeBody = new LinkedList<SnakeBody>();
     private final static int INITIAL_LENGTH = 5;
 
@@ -31,8 +32,8 @@ public class Snake {
             continueMoving();
         } else {
             snakeBody.removeLast();
-            int headX = (int)snakeBody.peekFirst().getX();
-            int headY = (int)snakeBody.peekFirst().getY();
+            int headX = (int) snakeBody.peekFirst().getX();
+            int headY = (int) snakeBody.peekFirst().getY();
             snakeBody.addFirst(new SnakeBody(headX, headY - 1));
             currentSnakeMovingDirection = "up";
         }
@@ -46,8 +47,8 @@ public class Snake {
             continueMoving();
         } else {
             snakeBody.removeLast();
-            int headX = (int)snakeBody.peekFirst().getX();
-            int headY = (int)snakeBody.peekFirst().getY();
+            int headX = (int) snakeBody.peekFirst().getX();
+            int headY = (int) snakeBody.peekFirst().getY();
             snakeBody.addFirst(new SnakeBody(headX, headY + 1));
             currentSnakeMovingDirection = "down";
         }
@@ -61,8 +62,8 @@ public class Snake {
             continueMoving();
         } else {
             snakeBody.removeLast();
-            int headX = (int)snakeBody.peekFirst().getX();
-            int headY = (int)snakeBody.peekFirst().getY();
+            int headX = (int) snakeBody.peekFirst().getX();
+            int headY = (int) snakeBody.peekFirst().getY();
             snakeBody.addFirst(new SnakeBody(headX - 1, headY));
             currentSnakeMovingDirection = "left";
         }
@@ -76,15 +77,15 @@ public class Snake {
             continueMoving();
         } else {
             snakeBody.removeLast();
-            int headX = (int)snakeBody.peekFirst().getX();
-            int headY = (int)snakeBody.peekFirst().getY();
+            int headX = (int) snakeBody.peekFirst().getX();
+            int headY = (int) snakeBody.peekFirst().getY();
             snakeBody.addFirst(new SnakeBody(headX + 1, headY));
             currentSnakeMovingDirection = "right";
         }
     }
 
     public void continueMoving() {
-        switch (currentSnakeMovingDirection) {
+        switch (inputSnakeMovingDirection) {
             case ("up"):
                 moveUp();
                 break;
@@ -98,6 +99,10 @@ public class Snake {
                 moveRight();
                 break;
         }
+    }
+
+    public void setSnakeDirection(String direction) {
+        inputSnakeMovingDirection = direction;
     }
 
     public LinkedList<SnakeBody> getSnakeBody() {
