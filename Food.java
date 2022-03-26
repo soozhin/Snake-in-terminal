@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Food extends Object {
 
@@ -21,14 +22,15 @@ public class Food extends Object {
     public void generateFoodPosition(Snake snake) {
         inititateSpawnableFoodPosition();
         deleteSnakePosition(snake);
-        int randomY = rand.nextInt(upperboundY);
-        int randomX = (int)(spawnableFoodPosition.get(randomY).size() * Math.random());
+        int randomY = rand.nextInt(spawnableFoodPosition.size());
+        int randomX = (int) (spawnableFoodPosition.get(randomY).size() * Math.random());
         Point spawnPoint = spawnableFoodPosition.get(randomY).get(randomX);
         this.setX(spawnPoint.x);
         this.setY(spawnPoint.y);
     }
 
     private void inititateSpawnableFoodPosition() {
+        spawnableFoodPosition = new ArrayList<>(upperboundY);
         for (int i = 0; i < View.HEIGHT - 2; i++) {
             spawnableFoodPosition.add(new ArrayList<>(upperboundX));
             for (int j = 0; j < View.WIDTH - 2; j++) {
@@ -44,8 +46,17 @@ public class Food extends Object {
             spawnableFoodPosition.get(snakeY).get(snakeX).x = -1;
             spawnableFoodPosition.get(snakeY).get(snakeX).y = -1;
         }
-        for (int i = 0 ; i < spawnableFoodPosition.size() ; i++ )
-            spawnableFoodPosition.get(i).remove(new Point(-1, -1));
+        for (int i = 0; i < spawnableFoodPosition.size(); i++)
+            for (Iterator<Point> it = spawnableFoodPosition.get(i).iterator(); it.hasNext();)
+                if (it.next().x == -1)
+                    it.remove();
+        for (Iterator<ArrayList<Point>> it = spawnableFoodPosition.iterator(); it.hasNext();)
+            if (it.next().isEmpty())
+                it.remove();
+    }
+
+    public ArrayList<ArrayList<Point>> getSpawnableFoodPosition() {
+        return spawnableFoodPosition;
     }
 
 }

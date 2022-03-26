@@ -8,6 +8,7 @@ public class GameState implements State {
     private int time;
     private int life;
     private Boolean invulnerability;
+    private Boolean autoPilot = true;
 
     public GameState(View view) {
         this.view = view;
@@ -24,7 +25,7 @@ public class GameState implements State {
 
         time += Controller.getDelay();
 
-        if (snake.getSnakeBody().size() == (View.WIDTH - 2) * (View.HEIGHT - 2))
+        if (snake.getSnakeBody().size() >= ((View.WIDTH - 2) * (View.HEIGHT - 2) - 1))
             return new GameOverState(view);
 
         if (life <= 0)
@@ -45,47 +46,78 @@ public class GameState implements State {
         }
 
         if (Collision.checkCollision(snakeHead, food)) {
-            food.generateFoodPosition(snake);
             snake.increaseLength();
+            food.generateFoodPosition(snake);
             foodEaten++;
         }
 
+        /**
+         * ########################################
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # oooo> X #(20,10)
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * # #
+         * ########################################
+         * # X: 0 TIME PASSED: 00:00 #
+         * ########################################
+         */
+        if (autoPilot)
+            snake.autoPilot();
         snake.continueMoving();
         return this;
     }
 
     public State processKeyTyped(String event) {
-        switch (event) {
-            case ("up"):
-                snake.setSnakeDirection(90);
-                break;
-            case ("down"):
-                snake.setSnakeDirection(270);
-                break;
-            case ("left"):
-                snake.setSnakeDirection(180);
-                break;
-            case ("right"):
-                snake.setSnakeDirection(0);
-                break;
-            case ("z"):
-                toggleInvulnerability();
-                break;
-            case ("x"):
-                snake.increaseLength();
-                break;
-            case ("c"):
-                snake.increaseSpeed();
-                break;
-            case ("v"):
-                snake.decreaseSpeed();
-                break;
-            case ("b"):
-                life += 3;
-                break;
-            // Pause game
-            case (""):
-                return new PauseState(view, this);
+        if (!autoPilot) {
+            switch (event) {
+                case ("up"):
+                    snake.setSnakeDirection(90);
+                    break;
+                case ("down"):
+                    snake.setSnakeDirection(270);
+                    break;
+                case ("left"):
+                    snake.setSnakeDirection(180);
+                    break;
+                case ("right"):
+                    snake.setSnakeDirection(0);
+                    break;
+                case ("z"):
+                    toggleInvulnerability();
+                    break;
+                case ("x"):
+                    snake.increaseLength();
+                    break;
+                case ("c"):
+                    snake.increaseSpeed();
+                    break;
+                case ("v"):
+                    snake.decreaseSpeed();
+                    break;
+                case ("b"):
+                    life += 3;
+                    break;
+                case ("n"):
+                    snake.toggleWarping();
+                    break;
+                // Pause game
+                case (""):
+                    return new PauseState(view, this);
+            }
         }
         return this;
     }
@@ -127,6 +159,17 @@ public class GameState implements State {
         String score = "X: " + foodEaten + " TIME PASSED: " + String.format("%02d", minute) + ":"
                 + String.format("%02d", second);
         view.putStringInPanel(score, 2, 0);
-    }
+        // String temp;
+        // for (int i = 0; i < food.getSpawnableFoodPosition().size(); i++) {
+        // temp = "";
+        // for (int j = 0; j < food.getSpawnableFoodPosition().get(i).size(); j++) {
+        // temp += "(" + food.getSpawnableFoodPosition().get(i).get(j).x + "," +
+        // food.getSpawnableFoodPosition().get(i).get(j).y + "), ";
+        // }
+        // if (temp != "")
+        // System.out.println(temp);
+        // }
 
+    }
+    
 }

@@ -123,6 +123,7 @@ public class View {
             model.getState().paint(this);
             paint();
         }
+
     }
 
 }

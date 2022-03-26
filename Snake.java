@@ -10,6 +10,9 @@ public class Snake {
     private LinkedList<SnakeBody> snakeBody = new LinkedList<SnakeBody>();
     private final static int INITIAL_LENGTH = 5;
     private SnakeBody previousTail;
+    private Boolean isWarpable = false; // canWarp || isWarpable || canWalkThroughWall
+    private Boolean isRight = true;
+    private Boolean isUp = false;
 
     public Snake() {
         this(INITIAL_LENGTH);
@@ -17,7 +20,7 @@ public class Snake {
 
     public Snake(int length) {
         this.length = length;
-        this.speed = 25;
+        this.speed = 100;
         this.movementInterval = 0;
         lockDirection = false;
         currentSnakeMovingDirection = 0;
@@ -36,7 +39,10 @@ public class Snake {
             snakeBody.removeLast();
             int headX = (int) snakeBody.peekFirst().getX();
             int headY = (int) snakeBody.peekFirst().getY();
-            snakeBody.addFirst(new SnakeBody(headX + 1, headY));
+            if (isWarpable)
+                snakeBody.addFirst(new SnakeBody((headX + 1 == 39) ? 1 : headX + 1, headY));
+            else
+                snakeBody.addFirst(new SnakeBody(headX + 1, headY)); // Like this right? :cat_approved:
             currentSnakeMovingDirection = 0;
         }
     }
@@ -51,7 +57,10 @@ public class Snake {
             snakeBody.removeLast();
             int headX = (int) snakeBody.peekFirst().getX();
             int headY = (int) snakeBody.peekFirst().getY();
-            snakeBody.addFirst(new SnakeBody(headX, headY - 1));
+            if (isWarpable)
+                snakeBody.addFirst(new SnakeBody(headX, (headY - 1 == 0) ? 18 : headY - 1));
+            else
+                snakeBody.addFirst(new SnakeBody(headX, headY - 1));
             currentSnakeMovingDirection = 90;
         }
     }
@@ -66,7 +75,10 @@ public class Snake {
             snakeBody.removeLast();
             int headX = (int) snakeBody.peekFirst().getX();
             int headY = (int) snakeBody.peekFirst().getY();
-            snakeBody.addFirst(new SnakeBody(headX - 1, headY));
+            if (isWarpable)
+                snakeBody.addFirst(new SnakeBody((headX - 1 == 0) ? 38 : headX - 1, headY));
+            else
+                snakeBody.addFirst(new SnakeBody(headX - 1, headY));
             currentSnakeMovingDirection = 180;
         }
     }
@@ -81,7 +93,10 @@ public class Snake {
             snakeBody.removeLast();
             int headX = (int) snakeBody.peekFirst().getX();
             int headY = (int) snakeBody.peekFirst().getY();
-            snakeBody.addFirst(new SnakeBody(headX, headY + 1));
+            if (isWarpable)
+                snakeBody.addFirst(new SnakeBody(headX, (headY + 1 == 19) ? 1 : headY + 1));
+            else
+                snakeBody.addFirst(new SnakeBody(headX, headY + 1));
             currentSnakeMovingDirection = 270;
         }
     }
@@ -130,15 +145,90 @@ public class Snake {
     }
 
     public void increaseSpeed() {
-        speed *= 2;
+        // Prevent the speed to go over 100
+        speed = Math.min(100, speed*=2);
+        // speed *= 2;
     }
 
     public void decreaseSpeed() {
-        speed /= 2;
+        // Prevent the speed to go down to 0
+        speed = Math.max(1, speed /= 2);
+        // speed /= 2;
+    }
+
+    public void toggleWarping() {
+        isWarpable = !isWarpable;
     }
 
     public LinkedList<SnakeBody> getSnakeBody() {
         return snakeBody;
+    }
+
+    public void autoPilot(){
+        int width = View.WIDTH - 2;
+        int height = View.HEIGHT - 2;
+        int x = snakeBody.peekFirst().getX();
+        int y = snakeBody.peekFirst().getY();
+        
+
+
+        // every step
+        // if x == width && y == height 
+            // isUp = True
+            // isRight = !isRight
+        // if isUp
+            // y--
+            // moveup
+            // if y == 1
+                // isUp = !isUp
+        // else if isRight
+            // if y == height 
+                // x++
+            // else if x == width - 1
+                // y++
+                // isRight = !isRight
+            // else
+                // x++
+        // else if !isRight
+            // if x == 1
+                // y++
+                // isRight = !isRight
+            // else
+                // x--
+        
+        if (x == width && y == height){
+            isUp = true;
+            isRight = !isRight;
+        }        
+        if(isUp){
+            if(y == 1){
+                isUp = false;
+                setSnakeDirection(180);
+            }
+            else
+                setSnakeDirection(90);
+        }
+        else if(isRight){
+            if(y==height){
+                setSnakeDirection(0);
+            }
+            else if(x == width - 1){
+                setSnakeDirection(270);
+                isRight = !isRight;
+            }
+            else
+                setSnakeDirection(0);
+        }
+        else if(!isRight){
+            if(x == 1){
+                isRight = !isRight;
+                setSnakeDirection(270);
+            }
+            else{
+                setSnakeDirection(180);
+            }
+        }
+        
     }
 
 }
