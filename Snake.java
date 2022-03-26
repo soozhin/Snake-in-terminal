@@ -20,7 +20,7 @@ public class Snake {
 
     public Snake(int length) {
         this.length = length;
-        this.speed = 100;
+        this.speed = 25;
         this.movementInterval = 0;
         lockDirection = false;
         currentSnakeMovingDirection = 0;

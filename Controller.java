@@ -11,7 +11,7 @@ public class Controller implements ActionListener {
      * DELAY = 50 -> delay 50ms -> FPS = 20Hz
      * DELAY = 20 -> delay 20ms -> FPS = 50Hz
      */
-    private static final int DELAY = 10;
+    private static final int DELAY = 20;
     private Model model;
     private Timer timer;
 

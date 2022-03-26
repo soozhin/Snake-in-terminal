@@ -8,7 +8,7 @@ public class GameState implements State {
     private int time;
     private int life;
     private Boolean invulnerability;
-    private Boolean autoPilot = true;
+    private Boolean autoPilot = false;
 
     public GameState(View view) {
         this.view = view;
@@ -171,5 +171,5 @@ public class GameState implements State {
         // }
 
     }
-    
+
 }
